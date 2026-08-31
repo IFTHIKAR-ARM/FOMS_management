@@ -1,0 +1,31 @@
+{
+  "name": "foms-vercel-backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Vercel Node backend compatibility layer for FOMS",
+  "engines": {
+    "node": "20.x"
+  },
+  "scripts": {
+    "test": "jest --runInBand",
+    "start": "node server.js",
+    "lint": "eslint . --ext .js",
+    "format": "prettier --write .",
+    "build:css": "tailwindcss -i ./src/styles/tailwind.css -o ./public_assets/css/tailwind.css --minify",
+    "watch:css": "tailwindcss -i ./src/styles/tailwind.css -o ./public_assets/css/tailwind.css --watch",
+    "build:css:node": "node scripts/build-tailwind.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "mysql2": "^3.12.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.0",
+    "autoprefixer": "^10.5.0",
+    "eslint": "^8.57.1",
+    "jest": "^30.2.0",
+    "postcss": "^8.5.15",
+    "prettier": "^3.8.3",
+    "tailwindcss": "^4.3.0"
+  }
+}

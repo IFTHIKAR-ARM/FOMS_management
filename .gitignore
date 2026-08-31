@@ -1,0 +1,18 @@
+.vercel
+node_modules/
+.env
+.env.local
+
+# Flutter generated files
+foms_app/.dart_tool/
+foms_app/build/
+foms_app/.flutter-plugins-dependencies
+foms_app/.flutter-plugins
+foms_app/.packages
+foms_app/pubspec_overrides.yaml
+foms_app/.idea/
+foms_app/**/Flutter/ephemeral/
+foms_app/**/flutter/ephemeral/
+
+# Local scratch/backup copies
+api/* copy.php

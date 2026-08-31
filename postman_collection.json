@@ -1,0 +1,148 @@
+{
+  "info": {
+    "name": "FOMS API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Collection for FOMS backend API (use {{baseUrl}} variable)"
+  },
+  "item": [
+    {
+      "name": "Get Menu",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/get_menu"
+      }
+    },
+    {
+      "name": "Get Locations",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/get_locations"
+      }
+    },
+    {
+      "name": "Get Orders",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/get_orders?phone={{phone}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api","get_orders"]
+        }
+      }
+    },
+    {
+      "name": "Admin Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"secret\"\n}"
+        },
+        "url": "{{baseUrl}}/api/admin_login"
+      }
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"phone\": \"0123456789\",\n  \"password\": \"password\"\n}"
+        },
+        "url": "{{baseUrl}}/api/login"
+      }
+    },
+    {
+      "name": "Unified Login (admin/customer)",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": { "mode": "raw", "raw": "{\n  \"identifier\": \"0123456789\",\n  \"password\": \"password\"\n}" },
+        "url": "{{baseUrl}}/api/unified"
+      }
+    },
+    {
+      "name": "Register",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": { "mode": "raw", "raw": "{\n  \"name\": \"Alice\",\n  \"phone\": \"0123456789\",\n  \"password\": \"password\",\n  \"location\": \"Downtown\"\n}" },
+        "url": "{{baseUrl}}/api/register"
+      }
+    },
+    {
+      "name": "Place Order",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": { "mode": "raw", "raw": "{\n  \"customer_phone\": \"0123456789\",\n  \"customer_name\": \"Alice\",\n  \"items\": [{\"name\":\"Pizza\",\"qty\":1}],\n  \"address\": \"123 Main St\",\n  \"total_amount\": 15.99\n}" },
+        "url": "{{baseUrl}}/api/place_order"
+      }
+    },
+    {
+      "name": "Update Order",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": { "mode": "raw", "raw": "{\n  \"customer_phone\": \"0123456789\",\n  \"created_at\": \"2026-05-31T12:00:00.000Z\",\n  \"address\": \"456 Elm St\",\n  \"items\": [{\"name\":\"Pizza\",\"qty\":2}]\n}" },
+        "url": "{{baseUrl}}/api/update_order_api"
+      }
+    },
+    {
+      "name": "Request Cancel",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": { "mode": "raw", "raw": "{\n  \"customer_phone\": \"0123456789\",\n  \"created_at\": \"2026-05-31T12:00:00.000Z\"\n}" },
+        "url": "{{baseUrl}}/api/request_cancel_api"
+      }
+    },
+    {
+      "name": "Admin Orders - Get",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/admin_orders_api"
+      }
+    },
+    {
+      "name": "Admin Orders - Post (update_status)",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": { "mode": "raw", "raw": "{\n  \"action\": \"update_status\",\n  \"customer_phone\": \"0123456789\",\n  \"created_at\": \"2026-05-31T12:00:00.000Z\",\n  \"status\": \"delivered\"\n}" },
+        "url": "{{baseUrl}}/api/admin_orders_api"
+      }
+    },
+    {
+      "name": "Admin Users - Get",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/admin_users_api"
+      }
+    },
+    {
+      "name": "Admin Users - Post (update_role)",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": { "mode": "raw", "raw": "{\n  \"action\": \"update_role\",\n  \"phone\": \"0123456789\",\n  \"role\": \"delivery\"\n}" },
+        "url": "{{baseUrl}}/api/admin_users_api"
+      }
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" },
+    { "key": "phone", "value": "0123456789" }
+  ]
+}

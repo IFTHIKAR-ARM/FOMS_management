@@ -1,0 +1,53 @@
+{
+  "functions": {
+    "api/**/*.js": {
+      "runtime": "nodejs20.x"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/login.php",
+      "destination": "/api/login"
+    },
+    {
+      "source": "/api/unified_login.php",
+      "destination": "/api/unified_login"
+    },
+    {
+      "source": "/api/admin_login.php",
+      "destination": "/api/admin_login"
+    },
+    {
+      "source": "/api/register.php",
+      "destination": "/api/register"
+    },
+    {
+      "source": "/api/get_locations.php",
+      "destination": "/api/get_locations"
+    },
+    {
+      "source": "/api/get_menu.php",
+      "destination": "/api/get_menu"
+    },
+    {
+      "source": "/api/get_orders.php",
+      "destination": "/api/get_orders"
+    },
+    {
+      "source": "/api/place_order.php",
+      "destination": "/api/place_order"
+    },
+    {
+      "source": "/api/request_cancel_api.php",
+      "destination": "/api/request_cancel_api"
+    },
+    {
+      "source": "/api/update_order_api.php",
+      "destination": "/api/update_order_api"
+    },
+    {
+      "source": "/api/admin_orders_api.php",
+      "destination": "/api/admin_orders_api"
+    }
+  ]
+}
