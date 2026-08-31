@@ -1,0 +1,46 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20260623194942
+Username: LAPTOP-9LGJM8S6\armif
+RunAs User: LAPTOP-9LGJM8S6\armif
+Configuration Name: 
+Machine: LAPTOP-9LGJM8S6 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -File c:\xampp\htdocs\FOMS\foms_app\set_perms_vbox.ps1
+Process ID: 27180
+PSVersion: 5.1.26100.8655
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.8655
+BuildVersion: 10.0.26100.8655
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is c:\xampp\htdocs\FOMS\foms_app\perms_log.txt
+Creating directory D:\VirtualBox...
+
+
+    Directory: D:\
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----         6/23/2026   7:49 PM                VirtualBox
+Setting strict permissions on D:\VirtualBox...
+processed file: D:\VirtualBox
+Successfully processed 1 files; Failed processing 0 files
+processed file: D:\VirtualBox
+Successfully processed 1 files; Failed processing 0 files
+processed file: D:\VirtualBox
+Successfully processed 1 files; Failed processing 0 files
+processed file: D:\VirtualBox
+Successfully processed 1 files; Failed processing 0 files
+processed file: D:\VirtualBox
+Successfully processed 1 files; Failed processing 0 files
+processed file: D:\VirtualBox
+Successfully processed 1 files; Failed processing 0 files
+Permissions successfully set.
+**********************
+Windows PowerShell transcript end
+End time: 20260623194942
+**********************
