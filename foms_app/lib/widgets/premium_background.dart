@@ -12,7 +12,7 @@ class PremiumBackground extends StatefulWidget {
 class _PremiumBackgroundState extends State<PremiumBackground>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 20),
+    duration: const Duration(seconds: 16),
     vsync: this,
   )..repeat();
 
@@ -26,7 +26,7 @@ class _PremiumBackgroundState extends State<PremiumBackground>
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        // Base sleek iOS 26 canvas gradient
+        // Base sleek liquid gradient canvas
         Positioned.fill(
           child: Container(
             decoration: const BoxDecoration(
@@ -34,17 +34,17 @@ class _PremiumBackgroundState extends State<PremiumBackground>
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Color(0xFFEBF4FF),
-                  Color(0xFFF8FAFC),
+                  Color(0xFFE2E8F0),
                   Color(0xFFF1F5F9),
-                  Color(0xFFE0E7FF),
+                  Color(0xFFEBF4FF),
+                  Color(0xFFEDE9FE),
                 ],
               ),
             ),
           ),
         ),
 
-        // Fluid Breathing Mesh Aurora Orbs
+        // Fluid Breathing Liquid Plasma Orbs
         Positioned.fill(
           child: AnimatedBuilder(
             animation: _controller,
@@ -53,50 +53,10 @@ class _PremiumBackgroundState extends State<PremiumBackground>
               return Stack(
                 clipBehavior: Clip.none,
                 children: [
-                  // 1. Electric Cobalt Orb (Top-Left)
+                  // 1. Electric Sapphire Liquid Orb (Top-Left)
                   Positioned(
-                    left: -80 + sin(t) * 110,
-                    top: -60 + cos(t * 0.9) * 90,
-                    child: Container(
-                      width: 480,
-                      height: 480,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color(0xFF3B82F6).withValues(alpha: 0.45),
-                            blurRadius: 160,
-                            spreadRadius: 60,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  // 2. Cyan / Neon Mint Orb (Center-Right)
-                  Positioned(
-                    right: -100 + cos(t * 1.1) * 120,
-                    top: 150 + sin(t * 0.8) * 140,
-                    child: Container(
-                      width: 460,
-                      height: 460,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color(0xFF06B6D4).withValues(alpha: 0.35),
-                            blurRadius: 150,
-                            spreadRadius: 50,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  // 3. Radiant Violet / Purple Orb (Bottom-Left)
-                  Positioned(
-                    left: -40 + cos(t * 0.7) * 130,
-                    bottom: -100 + sin(t * 1.2) * 100,
+                    left: -100 + sin(t) * 130,
+                    top: -80 + cos(t * 0.8) * 110,
                     child: Container(
                       width: 520,
                       height: 520,
@@ -104,8 +64,28 @@ class _PremiumBackgroundState extends State<PremiumBackground>
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFF8B5CF6).withValues(alpha: 0.38),
-                            blurRadius: 160,
+                            color: const Color(0xFF2563EB).withValues(alpha: 0.50),
+                            blurRadius: 180,
+                            spreadRadius: 70,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  // 2. Neon Cyan Liquid Orb (Top-Right)
+                  Positioned(
+                    right: -120 + cos(t * 1.1) * 140,
+                    top: 80 + sin(t * 0.9) * 150,
+                    child: Container(
+                      width: 500,
+                      height: 500,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFF06B6D4).withValues(alpha: 0.42),
+                            blurRadius: 170,
                             spreadRadius: 60,
                           ),
                         ],
@@ -113,20 +93,40 @@ class _PremiumBackgroundState extends State<PremiumBackground>
                     ),
                   ),
 
-                  // 4. Warm Sunset Amber Orb (Bottom-Right)
+                  // 3. Radiant Magenta/Violet Liquid Orb (Bottom-Left)
                   Positioned(
-                    right: -60 + sin(t * 1.3) * 100,
-                    bottom: -40 + cos(t * 0.7) * 80,
+                    left: -60 + cos(t * 0.7) * 150,
+                    bottom: -120 + sin(t * 1.3) * 120,
                     child: Container(
-                      width: 420,
-                      height: 420,
+                      width: 560,
+                      height: 560,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFFF59E0B).withValues(alpha: 0.25),
-                            blurRadius: 140,
-                            spreadRadius: 40,
+                            color: const Color(0xFF8B5CF6).withValues(alpha: 0.45),
+                            blurRadius: 180,
+                            spreadRadius: 70,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  // 4. Glowing Coral / Sunset Amber Orb (Bottom-Right)
+                  Positioned(
+                    right: -80 + sin(t * 1.2) * 120,
+                    bottom: -60 + cos(t * 0.6) * 100,
+                    child: Container(
+                      width: 480,
+                      height: 480,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFFF97316).withValues(alpha: 0.32),
+                            blurRadius: 160,
+                            spreadRadius: 50,
                           ),
                         ],
                       ),
@@ -138,14 +138,14 @@ class _PremiumBackgroundState extends State<PremiumBackground>
           ),
         ),
 
-        // Translucent Ultra-fine noise / soft overlay
+        // Translucent liquid glass tint overlay
         Positioned.fill(
           child: Container(
-            color: Colors.white.withValues(alpha: 0.20),
+            color: Colors.white.withValues(alpha: 0.16),
           ),
         ),
 
-        // Main App Content Layer
+        // Main App Viewport
         Positioned.fill(child: widget.child),
       ],
     );

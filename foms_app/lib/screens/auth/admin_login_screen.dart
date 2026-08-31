@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../services/api_service.dart';
 import '../../services/session_service.dart';
-import '../../widgets/ios_glass_card.dart';
+import '../../widgets/liquid_button.dart';
+import '../../widgets/liquid_glass_card.dart';
 import '../../widgets/premium_background.dart';
 
 class AdminLoginScreen extends StatefulWidget {
@@ -73,7 +74,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen>
         content: Text(msg),
         backgroundColor: isError ? const Color(0xFFEF4444) : const Color(0xFF2563EB),
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         margin: const EdgeInsets.all(20),
       ),
     );
@@ -99,9 +100,9 @@ class _AdminLoginScreenState extends State<AdminLoginScreen>
             icon: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.6),
+                color: Colors.white.withValues(alpha: 0.7),
                 shape: BoxShape.circle,
-                border: Border.all(color: Colors.white.withValues(alpha: 0.8)),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.9)),
               ),
               child: const Icon(Icons.arrow_back_ios_new_rounded, size: 16, color: Color(0xFF0F172A)),
             ),
@@ -110,7 +111,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen>
           centerTitle: true,
           title: const Text(
             "Admin Portal",
-            style: TextStyle(fontWeight: FontWeight.w700, color: Color(0xFF0F172A)),
+            style: TextStyle(fontWeight: FontWeight.w800, color: Color(0xFF0F172A)),
           ),
         ),
         body: Center(
@@ -123,118 +124,103 @@ class _AdminLoginScreenState extends State<AdminLoginScreen>
                   begin: const Offset(0, 0.1),
                   end: Offset.zero,
                 ).animate(CurvedAnimation(parent: _anim, curve: Curves.easeOutCubic)),
-                child: IosGlassCard(
-                  blur: 24,
-                  borderRadius: 28,
-                  padding: const EdgeInsets.all(28),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                        width: 76,
-                        height: 76,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: const LinearGradient(
-                            colors: [Color(0xFFEF4444), Color(0xFFDC2626)],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color(0xFFEF4444).withValues(alpha: 0.4),
-                              blurRadius: 20,
-                              offset: const Offset(0, 8),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 440),
+                  child: LiquidGlassCard(
+                    blur: 32,
+                    borderRadius: 36,
+                    padding: const EdgeInsets.all(30),
+                    glowColor: const Color(0xFFEF4444).withValues(alpha: 0.22),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          width: 80,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            gradient: const LinearGradient(
+                              colors: [Color(0xFFF87171), Color(0xFFDC2626)],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
                             ),
-                          ],
-                        ),
-                        child: const Icon(
-                          Icons.admin_panel_settings_rounded,
-                          size: 38,
-                          color: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      const Text(
-                        "Restaurant Control",
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w800,
-                          color: Color(0xFF0F172A),
-                          letterSpacing: -0.6,
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      const Text(
-                        "Enter your administrator credentials to proceed",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 14, color: Color(0xFF64748B)),
-                      ),
-                      const SizedBox(height: 28),
-
-                      // Username Input
-                      _buildTextField(
-                        controller: usernameController,
-                        label: "Admin Username",
-                        icon: Icons.person_outline_rounded,
-                      ),
-                      const SizedBox(height: 16),
-
-                      // Password Input
-                      _buildTextField(
-                        controller: passwordController,
-                        label: "Password",
-                        icon: Icons.lock_outline_rounded,
-                        obscure: _hidePassword,
-                        suffix: IconButton(
-                          icon: Icon(
-                            _hidePassword
-                                ? Icons.visibility_outlined
-                                : Icons.visibility_off_outlined,
-                            color: const Color(0xFF64748B),
-                            size: 20,
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(0xFFEF4444).withValues(alpha: 0.50),
+                                blurRadius: 28,
+                                offset: const Offset(0, 12),
+                              ),
+                              BoxShadow(
+                                color: Colors.white.withValues(alpha: 0.4),
+                                blurRadius: 6,
+                                offset: const Offset(0, -2),
+                              ),
+                            ],
                           ),
-                          onPressed: () =>
-                              setState(() => _hidePassword = !_hidePassword),
+                          child: const Icon(
+                            Icons.admin_panel_settings_rounded,
+                            size: 40,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 28),
+                        const SizedBox(height: 22),
+                        const Text(
+                          "Restaurant Control",
+                          style: TextStyle(
+                            fontSize: 26,
+                            fontWeight: FontWeight.w900,
+                            color: Color(0xFF0F172A),
+                            letterSpacing: -0.8,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        const Text(
+                          "Administrator authentication access",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 14, color: Color(0xFF64748B)),
+                        ),
+                        const SizedBox(height: 28),
 
-                      // Login Button
-                      SizedBox(
-                        width: double.infinity,
-                        height: 54,
-                        child: ElevatedButton(
-                          onPressed: isLoading ? null : loginAsAdmin,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFFEF4444),
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
+                        // Username Input
+                        _buildLiquidInput(
+                          controller: usernameController,
+                          label: "Admin Username",
+                          icon: Icons.person_outline_rounded,
+                        ),
+                        const SizedBox(height: 16),
+
+                        // Password Input
+                        _buildLiquidInput(
+                          controller: passwordController,
+                          label: "Password",
+                          icon: Icons.lock_outline_rounded,
+                          obscure: _hidePassword,
+                          suffix: IconButton(
+                            icon: Icon(
+                              _hidePassword
+                                  ? Icons.visibility_outlined
+                                  : Icons.visibility_off_outlined,
+                              color: const Color(0xFF64748B),
+                              size: 20,
                             ),
-                            shadowColor: const Color(0xFFEF4444).withValues(alpha: 0.5),
+                            onPressed: () =>
+                                setState(() => _hidePassword = !_hidePassword),
                           ),
-                          child: isLoading
-                              ? const SizedBox(
-                                  width: 22,
-                                  height: 22,
-                                  child: CircularProgressIndicator(
-                                    color: Colors.white,
-                                    strokeWidth: 2,
-                                  ),
-                                )
-                              : const Text(
-                                  "Authorize & Enter",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.white,
-                                    letterSpacing: 0.3,
-                                  ),
-                                ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 28),
+
+                        // Liquid Login Button
+                        LiquidButton(
+                          text: "Authorize & Enter",
+                          isLoading: isLoading,
+                          height: 56,
+                          borderRadius: 18,
+                          gradientColors: const [Color(0xFFEF4444), Color(0xFFDC2626)],
+                          glowColor: const Color(0xFFEF4444).withValues(alpha: 0.55),
+                          onPressed: loginAsAdmin,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -245,7 +231,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen>
     );
   }
 
-  Widget _buildTextField({
+  Widget _buildLiquidInput({
     required TextEditingController controller,
     required String label,
     required IconData icon,
@@ -254,17 +240,35 @@ class _AdminLoginScreenState extends State<AdminLoginScreen>
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.65),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFCBD5E1), width: 1.0),
+        color: Colors.white.withValues(alpha: 0.70),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.90),
+          width: 1.2,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.03),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
+          ),
+        ],
       ),
       child: TextField(
         controller: controller,
         obscureText: obscure,
-        style: const TextStyle(color: Color(0xFF0F172A), fontSize: 15),
+        style: const TextStyle(
+          color: Color(0xFF0F172A),
+          fontSize: 15,
+          fontWeight: FontWeight.w600,
+        ),
         decoration: InputDecoration(
           labelText: label,
-          labelStyle: const TextStyle(color: Color(0xFF64748B), fontSize: 14),
+          labelStyle: const TextStyle(
+            color: Color(0xFF64748B),
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
           prefixIcon: Icon(icon, color: const Color(0xFF64748B), size: 20),
           suffixIcon: suffix,
           border: InputBorder.none,

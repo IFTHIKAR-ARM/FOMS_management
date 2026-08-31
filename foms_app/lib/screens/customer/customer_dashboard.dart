@@ -5,7 +5,8 @@ import '../../models/menu_item.dart';
 import '../../models/orders.dart';
 import '../../services/api_service.dart';
 import '../../services/session_service.dart';
-import '../../widgets/ios_glass_card.dart';
+import '../../widgets/liquid_button.dart';
+import '../../widgets/liquid_glass_card.dart';
 import '../../widgets/logout_dialog.dart';
 import '../../widgets/premium_background.dart';
 
@@ -139,18 +140,19 @@ class _CustomerDashboardState extends State<CustomerDashboard>
             padding: EdgeInsets.only(
               bottom: MediaQuery.of(ctx).viewInsets.bottom,
             ),
-            child: IosGlassCard(
-              blur: 28,
-              borderRadius: 32,
+            child: LiquidGlassCard(
+              blur: 36,
+              borderRadius: 36,
               padding: const EdgeInsets.all(28),
               margin: const EdgeInsets.all(16),
+              glowColor: const Color(0xFF2563EB).withValues(alpha: 0.22),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Center(
                     child: Container(
-                      width: 44,
+                      width: 48,
                       height: 5,
                       decoration: BoxDecoration(
                         color: const Color(0xFFCBD5E1),
@@ -158,25 +160,33 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                       ),
                     ),
                   ),
-                  const SizedBox(height: 18),
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
                         "Order Summary",
                         style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w800,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w900,
                           color: Color(0xFF0F172A),
-                          letterSpacing: -0.5,
+                          letterSpacing: -0.6,
                         ),
                       ),
-                      Text(
-                        "LKR $_totalAmount",
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w800,
-                          color: Color(0xFF2563EB),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF2563EB).withValues(alpha: 0.12),
+                          borderRadius: BorderRadius.circular(14),
+                          border: Border.all(color: const Color(0xFF2563EB).withValues(alpha: 0.3)),
+                        ),
+                        child: Text(
+                          "LKR $_totalAmount",
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w900,
+                            color: Color(0xFF2563EB),
+                          ),
                         ),
                       ),
                     ],
@@ -197,12 +207,19 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                               padding: const EdgeInsets.symmetric(vertical: 6),
                               child: Row(
                                 children: [
-                                  Text(
-                                    "${_qty[m.name]}x",
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w800,
-                                      color: Color(0xFF2563EB),
-                                      fontSize: 15,
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF2563EB).withValues(alpha: 0.1),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Text(
+                                      "${_qty[m.name]}x",
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w800,
+                                        color: Color(0xFF2563EB),
+                                        fontSize: 14,
+                                      ),
                                     ),
                                   ),
                                   const SizedBox(width: 12),
@@ -211,7 +228,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                                       m.name,
                                       style: const TextStyle(
                                         fontSize: 15,
-                                        fontWeight: FontWeight.w600,
+                                        fontWeight: FontWeight.w700,
                                         color: Color(0xFF1E293B),
                                       ),
                                     ),
@@ -220,7 +237,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                                     "LKR ${m.price * (_qty[m.name] ?? 0)}",
                                     style: const TextStyle(
                                       fontSize: 15,
-                                      fontWeight: FontWeight.w700,
+                                      fontWeight: FontWeight.w800,
                                       color: Color(0xFF475569),
                                     ),
                                   ),
@@ -231,14 +248,14 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                           .toList(),
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 18),
 
                   // Delivery Address
                   const Text(
                     "Delivery Location",
                     style: TextStyle(
                       fontSize: 14,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w800,
                       color: Color(0xFF64748B),
                     ),
                   ),
@@ -246,12 +263,12 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.7),
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: const Color(0xFFCBD5E1)),
+                      borderRadius: BorderRadius.circular(18),
+                      border: Border.all(color: Colors.white.withValues(alpha: 0.9)),
                     ),
                     child: TextField(
                       controller: _addrCtrl,
-                      style: const TextStyle(color: Color(0xFF0F172A), fontSize: 14),
+                      style: const TextStyle(color: Color(0xFF0F172A), fontSize: 14, fontWeight: FontWeight.w600),
                       decoration: const InputDecoration(
                         hintText: "Enter full delivery address",
                         prefixIcon: Icon(Icons.location_on_rounded, color: Color(0xFF2563EB), size: 20),
@@ -262,44 +279,23 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                   ),
                   const SizedBox(height: 24),
 
-                  // Submit Order Button
-                  SizedBox(
-                    width: double.infinity,
-                    height: 54,
-                    child: ElevatedButton(
-                      onPressed: _placing
-                          ? null
-                          : () async {
-                              final addr = _addrCtrl.text.trim();
-                              if (addr.isEmpty) {
-                                _snack("Please provide a delivery address", isError: true);
-                                return;
-                              }
-                              Navigator.pop(ctx);
-                              await _submitOrder(addr);
-                            },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF2563EB),
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                      ),
-                      child: _placing
-                          ? const SizedBox(
-                              width: 22,
-                              height: 22,
-                              child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
-                            )
-                          : const Text(
-                              "Confirm & Place Order",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.white,
-                              ),
-                            ),
-                    ),
+                  // Submit Button
+                  LiquidButton(
+                    text: "Confirm & Place Order",
+                    isLoading: _placing,
+                    height: 56,
+                    borderRadius: 18,
+                    gradientColors: const [Color(0xFF2563EB), Color(0xFF1D4ED8)],
+                    glowColor: const Color(0xFF2563EB).withValues(alpha: 0.55),
+                    onPressed: () async {
+                      final addr = _addrCtrl.text.trim();
+                      if (addr.isEmpty) {
+                        _snack("Please provide a delivery address", isError: true);
+                        return;
+                      }
+                      Navigator.pop(ctx);
+                      await _submitOrder(addr);
+                    },
                   ),
                 ],
               ),
@@ -365,7 +361,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
         backgroundColor:
             isError ? const Color(0xFFEF4444) : const Color(0xFF2563EB),
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         margin: const EdgeInsets.all(20),
       ),
     );
@@ -379,10 +375,10 @@ class _CustomerDashboardState extends State<CustomerDashboard>
         body: SafeArea(
           child: Column(
             children: [
-              // Top Frosted Glass Header
+              // Top Floating Liquid Island Header
               _buildTopHeader(),
 
-              // Segmented Tab Switcher Pills
+              // Sliding Liquid Tab Switcher
               _buildSegmentedTab(),
 
               // Tab View Content
@@ -398,7 +394,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                 ),
               ),
 
-              // Bottom Floating Cart Pill
+              // Bottom Dynamic Island Cart Bar
               if (_selectedTab == 0 && _totalCount > 0) _buildFloatingCartBar(),
             ],
           ),
@@ -409,25 +405,33 @@ class _CustomerDashboardState extends State<CustomerDashboard>
 
   Widget _buildTopHeader() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
-      child: IosGlassCard(
-        blur: 24,
-        borderRadius: 24,
+      padding: const EdgeInsets.fromLTRB(20, 14, 20, 8),
+      child: LiquidGlassCard(
+        blur: 32,
+        borderRadius: 28,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+        glowColor: const Color(0xFF2563EB).withValues(alpha: 0.14),
         child: Row(
           children: [
             Container(
-              width: 44,
-              height: 44,
+              width: 48,
+              height: 48,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: const LinearGradient(
-                  colors: [Color(0xFF2563EB), Color(0xFF60A5FA)],
+                  colors: [Color(0xFF3B82F6), Color(0xFF1D4ED8)],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF2563EB).withValues(alpha: 0.40),
+                    blurRadius: 16,
+                    offset: const Offset(0, 6),
+                  ),
+                ],
               ),
-              child: const Icon(Icons.person_rounded, color: Colors.white, size: 24),
+              child: const Icon(Icons.person_rounded, color: Colors.white, size: 26),
             ),
             const SizedBox(width: 14),
             Expanded(
@@ -437,25 +441,38 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                   Text(
                     "Hello, $_name",
                     style: const TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w800,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w900,
                       color: Color(0xFF0F172A),
-                      letterSpacing: -0.4,
+                      letterSpacing: -0.5,
                     ),
                   ),
                   const SizedBox(height: 2),
-                  Text(
-                    _phone ?? "Customer",
-                    style: const TextStyle(fontSize: 13, color: Color(0xFF64748B)),
+                  Row(
+                    children: [
+                      Container(
+                        width: 7,
+                        height: 7,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFF10B981),
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        _phone ?? "Customer",
+                        style: const TextStyle(fontSize: 13, color: Color(0xFF64748B), fontWeight: FontWeight.w500),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
             IconButton(
               icon: Container(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(9),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFEF4444).withValues(alpha: 0.1),
+                  color: const Color(0xFFEF4444).withValues(alpha: 0.12),
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(Icons.logout_rounded, color: Color(0xFFEF4444), size: 18),
@@ -470,12 +487,13 @@ class _CustomerDashboardState extends State<CustomerDashboard>
 
   Widget _buildSegmentedTab() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       child: Container(
         padding: const EdgeInsets.all(4),
         decoration: BoxDecoration(
-          color: const Color(0xFFE2E8F0).withValues(alpha: 0.6),
-          borderRadius: BorderRadius.circular(20),
+          color: const Color(0xFFE2E8F0).withValues(alpha: 0.70),
+          borderRadius: BorderRadius.circular(22),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.8)),
         ),
         child: Row(
           children: [
@@ -493,17 +511,23 @@ class _CustomerDashboardState extends State<CustomerDashboard>
       child: GestureDetector(
         onTap: () => setState(() => _selectedTab = index),
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          padding: const EdgeInsets.symmetric(vertical: 11),
+          duration: const Duration(milliseconds: 220),
+          curve: Curves.easeOutCubic,
+          padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
             color: active ? Colors.white : Colors.transparent,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(18),
             boxShadow: active
                 ? [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.08),
-                      blurRadius: 10,
-                      offset: const Offset(0, 3),
+                      color: Colors.black.withValues(alpha: 0.10),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
+                    ),
+                    BoxShadow(
+                      color: Colors.white.withValues(alpha: 0.8),
+                      blurRadius: 4,
+                      offset: const Offset(0, -1),
                     ),
                   ]
                 : null,
@@ -521,7 +545,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                 title,
                 style: TextStyle(
                   fontSize: 14,
-                  fontWeight: active ? FontWeight.w700 : FontWeight.w500,
+                  fontWeight: active ? FontWeight.w800 : FontWeight.w600,
                   color: active ? const Color(0xFF0F172A) : const Color(0xFF64748B),
                 ),
               ),
@@ -539,17 +563,17 @@ class _CustomerDashboardState extends State<CustomerDashboard>
     }).toList();
 
     return ListView(
-      padding: const EdgeInsets.fromLTRB(20, 4, 20, 100),
+      padding: const EdgeInsets.fromLTRB(20, 4, 20, 110),
       children: [
-        // Search Bar
-        IosGlassCard(
-          blur: 16,
-          borderRadius: 18,
+        // Liquid Search Bar
+        LiquidGlassCard(
+          blur: 20,
+          borderRadius: 20,
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: TextField(
             controller: _searchCtrl,
             onChanged: (v) => setState(() => _searchQuery = v),
-            style: const TextStyle(color: Color(0xFF0F172A), fontSize: 14),
+            style: const TextStyle(color: Color(0xFF0F172A), fontSize: 14, fontWeight: FontWeight.w600),
             decoration: InputDecoration(
               hintText: "Search dishes, rice, curries...",
               hintStyle: const TextStyle(color: Color(0xFF94A3B8), fontSize: 14),
@@ -568,7 +592,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
             ),
           ),
         ),
-        const SizedBox(height: 18),
+        const SizedBox(height: 16),
 
         if (filtered.isEmpty)
           const Center(
@@ -576,7 +600,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
               padding: EdgeInsets.all(40),
               child: Text(
                 "No menu items match your search.",
-                style: TextStyle(color: Color(0xFF64748B), fontSize: 15),
+                style: TextStyle(color: Color(0xFF64748B), fontSize: 15, fontWeight: FontWeight.w600),
               ),
             ),
           )
@@ -588,29 +612,37 @@ class _CustomerDashboardState extends State<CustomerDashboard>
 
   Widget _buildFoodCard(MenuItem item) {
     final count = _qty[item.name] ?? 0;
-    return IosGlassCard(
-      blur: 20,
-      borderRadius: 24,
+    return LiquidGlassCard(
+      blur: 24,
+      borderRadius: 28,
       margin: const EdgeInsets.only(bottom: 14),
       padding: const EdgeInsets.all(16),
+      glowColor: count > 0 ? const Color(0xFF2563EB).withValues(alpha: 0.22) : null,
       child: Row(
         children: [
           // Food Icon Avatar
           Container(
-            width: 68,
-            height: 68,
+            width: 72,
+            height: 72,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: BorderRadius.circular(20),
               gradient: const LinearGradient(
                 colors: [Color(0xFFE0E7FF), Color(0xFFC7D2FE)],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF6366F1).withValues(alpha: 0.20),
+                  blurRadius: 14,
+                  offset: const Offset(0, 4),
+                ),
+              ],
             ),
             child: const Icon(
               Icons.restaurant_rounded,
               color: Color(0xFF4338CA),
-              size: 32,
+              size: 34,
             ),
           ),
           const SizedBox(width: 16),
@@ -624,31 +656,48 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                   item.name,
                   style: const TextStyle(
                     fontSize: 16,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w800,
                     color: Color(0xFF0F172A),
+                    letterSpacing: -0.3,
                   ),
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  "LKR ${item.price}",
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w800,
-                    color: Color(0xFF2563EB),
+                const SizedBox(height: 6),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF2563EB).withValues(alpha: 0.10),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    "LKR ${item.price}",
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w800,
+                      color: Color(0xFF2563EB),
+                    ),
                   ),
                 ),
               ],
             ),
           ),
 
-          // Quantity Stepper Pill (iOS 26 Style)
+          // Quantity Stepper Pill
           Container(
             decoration: BoxDecoration(
               color: count > 0 ? const Color(0xFF2563EB) : const Color(0xFFF1F5F9),
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(16),
               border: Border.all(
                 color: count > 0 ? const Color(0xFF2563EB) : const Color(0xFFCBD5E1),
               ),
+              boxShadow: count > 0
+                  ? [
+                      BoxShadow(
+                        color: const Color(0xFF2563EB).withValues(alpha: 0.40),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
+                      ),
+                    ]
+                  : null,
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -680,7 +729,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                       count > 0 ? "$count" : "+ Add",
                       style: TextStyle(
                         fontSize: 13,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w800,
                         color: count > 0 ? Colors.white : const Color(0xFF2563EB),
                       ),
                     ),
@@ -718,11 +767,12 @@ class _CustomerDashboardState extends State<CustomerDashboard>
               SizedBox(height: 16),
               Text(
                 "No orders placed yet",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Color(0xFF0F172A)),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Color(0xFF0F172A)),
               ),
               SizedBox(height: 6),
               Text(
-                "Your active and completed orders will show here.",
+                "Your active and completed orders will appear here in real time.",
+                textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 14, color: Color(0xFF64748B)),
               ),
             ],
@@ -736,9 +786,9 @@ class _CustomerDashboardState extends State<CustomerDashboard>
       itemCount: _orders.length,
       itemBuilder: (ctx, idx) {
         final order = _orders[idx];
-        return IosGlassCard(
-          blur: 20,
-          borderRadius: 24,
+        return LiquidGlassCard(
+          blur: 24,
+          borderRadius: 28,
           margin: const EdgeInsets.only(bottom: 16),
           padding: const EdgeInsets.all(20),
           child: Column(
@@ -749,17 +799,17 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                 children: [
                   Text(
                     order.createdAt.length > 16 ? order.createdAt.substring(0, 16) : order.createdAt,
-                    style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF64748B)),
+                    style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Color(0xFF64748B)),
                   ),
-                  _buildStatusChip(order.status),
+                  _buildLiquidStatusBadge(order.status),
                 ],
               ),
               const SizedBox(height: 12),
               Text(
                 order.items,
-                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Color(0xFF0F172A)),
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Color(0xFF0F172A)),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -769,13 +819,13 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                       const SizedBox(width: 4),
                       Text(
                         order.address,
-                        style: const TextStyle(fontSize: 13, color: Color(0xFF64748B)),
+                        style: const TextStyle(fontSize: 13, color: Color(0xFF64748B), fontWeight: FontWeight.w500),
                       ),
                     ],
                   ),
                   Text(
                     "LKR ${order.amount}",
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Color(0xFF2563EB)),
+                    style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w900, color: Color(0xFF2563EB)),
                   ),
                 ],
               ),
@@ -787,7 +837,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
                   child: TextButton.icon(
                     onPressed: () => _requestCancel(order.createdAt),
                     icon: const Icon(Icons.cancel_outlined, size: 16, color: Color(0xFFEF4444)),
-                    label: const Text("Request Cancellation", style: TextStyle(color: Color(0xFFEF4444), fontSize: 13, fontWeight: FontWeight.w600)),
+                    label: const Text("Request Cancellation", style: TextStyle(color: Color(0xFFEF4444), fontSize: 13, fontWeight: FontWeight.w700)),
                   ),
                 ),
               ],
@@ -798,7 +848,7 @@ class _CustomerDashboardState extends State<CustomerDashboard>
     );
   }
 
-  Widget _buildStatusChip(String status) {
+  Widget _buildLiquidStatusBadge(String status) {
     final s = status.toLowerCase();
     Color bg = const Color(0xFFFEF3C7);
     Color fg = const Color(0xFFD97706);
@@ -823,14 +873,15 @@ class _CustomerDashboardState extends State<CustomerDashboard>
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
       decoration: BoxDecoration(
         color: bg,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: fg.withValues(alpha: 0.3)),
       ),
       child: Text(
         label,
-        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: fg),
+        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: fg),
       ),
     );
   }
@@ -838,12 +889,13 @@ class _CustomerDashboardState extends State<CustomerDashboard>
   Widget _buildFloatingCartBar() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
-      child: IosGlassCard(
-        blur: 28,
-        borderRadius: 24,
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      child: LiquidGlassCard(
+        blur: 36,
+        borderRadius: 28,
+        padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
         surfaceColor: const Color(0xFF0F172A),
-        surfaceOpacity: 0.90,
+        surfaceOpacity: 0.92,
+        glowColor: const Color(0xFF2563EB).withValues(alpha: 0.40),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -852,28 +904,23 @@ class _CustomerDashboardState extends State<CustomerDashboard>
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  "$_totalCount items in Cart",
-                  style: const TextStyle(fontSize: 13, color: Colors.white70),
+                  "$_totalCount food items selected",
+                  style: const TextStyle(fontSize: 13, color: Colors.white70, fontWeight: FontWeight.w500),
                 ),
                 Text(
                   "LKR $_totalAmount",
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Colors.white),
+                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Colors.white),
                 ),
               ],
             ),
-            ElevatedButton.icon(
+            LiquidButton(
+              text: "Checkout",
+              icon: Icons.arrow_forward_rounded,
+              height: 48,
+              borderRadius: 16,
+              gradientColors: const [Color(0xFF2563EB), Color(0xFF3B82F6)],
+              glowColor: const Color(0xFF2563EB).withValues(alpha: 0.6),
               onPressed: _showCheckoutSheet,
-              icon: const Icon(Icons.arrow_forward_rounded, size: 18, color: Colors.white),
-              label: const Text(
-                "Checkout",
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Colors.white),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF2563EB),
-                elevation: 0,
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-              ),
             ),
           ],
         ),

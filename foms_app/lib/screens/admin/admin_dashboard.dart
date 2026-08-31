@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../models/admin_order.dart';
 import '../../models/user_model.dart';
 import '../../services/api_service.dart';
-import '../../widgets/ios_glass_card.dart';
+import '../../widgets/liquid_glass_card.dart';
 import '../../widgets/logout_dialog.dart';
 import '../../widgets/premium_background.dart';
 
@@ -128,10 +128,9 @@ class _AdminDashboardState extends State<AdminDashboard>
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(msg),
-        backgroundColor:
-            isError ? const Color(0xFFEF4444) : const Color(0xFF2563EB),
+        backgroundColor: isError ? const Color(0xFFEF4444) : const Color(0xFF2563EB),
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         margin: const EdgeInsets.all(20),
       ),
     );
@@ -145,10 +144,10 @@ class _AdminDashboardState extends State<AdminDashboard>
         body: SafeArea(
           child: Column(
             children: [
-              // Admin Frosted Header
+              // Admin Liquid Header
               _buildHeader(),
 
-              // Segmented Tab Switcher
+              // Sliding Liquid Tab Switcher
               _buildSegmentedTabs(),
 
               // Content View
@@ -172,25 +171,33 @@ class _AdminDashboardState extends State<AdminDashboard>
 
   Widget _buildHeader() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
-      child: IosGlassCard(
-        blur: 24,
-        borderRadius: 24,
+      padding: const EdgeInsets.fromLTRB(20, 14, 20, 8),
+      child: LiquidGlassCard(
+        blur: 32,
+        borderRadius: 28,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+        glowColor: const Color(0xFFEF4444).withValues(alpha: 0.16),
         child: Row(
           children: [
             Container(
-              width: 44,
-              height: 44,
+              width: 48,
+              height: 48,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: const LinearGradient(
-                  colors: [Color(0xFFEF4444), Color(0xFFDC2626)],
+                  colors: [Color(0xFFF87171), Color(0xFFDC2626)],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFFEF4444).withValues(alpha: 0.40),
+                    blurRadius: 16,
+                    offset: const Offset(0, 6),
+                  ),
+                ],
               ),
-              child: const Icon(Icons.admin_panel_settings_rounded, color: Colors.white, size: 24),
+              child: const Icon(Icons.admin_panel_settings_rounded, color: Colors.white, size: 26),
             ),
             const SizedBox(width: 14),
             const Expanded(
@@ -200,25 +207,25 @@ class _AdminDashboardState extends State<AdminDashboard>
                   Text(
                     "Admin Center",
                     style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w800,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w900,
                       color: Color(0xFF0F172A),
-                      letterSpacing: -0.4,
+                      letterSpacing: -0.5,
                     ),
                   ),
                   SizedBox(height: 2),
                   Text(
                     "Kitchen & Operations Control",
-                    style: TextStyle(fontSize: 13, color: Color(0xFF64748B)),
+                    style: TextStyle(fontSize: 13, color: Color(0xFF64748B), fontWeight: FontWeight.w500),
                   ),
                 ],
               ),
             ),
             IconButton(
               icon: Container(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(9),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFEF4444).withValues(alpha: 0.1),
+                  color: const Color(0xFFEF4444).withValues(alpha: 0.12),
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(Icons.logout_rounded, color: Color(0xFFEF4444), size: 18),
@@ -233,12 +240,13 @@ class _AdminDashboardState extends State<AdminDashboard>
 
   Widget _buildSegmentedTabs() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       child: Container(
         padding: const EdgeInsets.all(4),
         decoration: BoxDecoration(
-          color: const Color(0xFFE2E8F0).withValues(alpha: 0.6),
-          borderRadius: BorderRadius.circular(20),
+          color: const Color(0xFFE2E8F0).withValues(alpha: 0.70),
+          borderRadius: BorderRadius.circular(22),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.8)),
         ),
         child: Row(
           children: [
@@ -256,17 +264,23 @@ class _AdminDashboardState extends State<AdminDashboard>
       child: GestureDetector(
         onTap: () => setState(() => _selectedTab = index),
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          padding: const EdgeInsets.symmetric(vertical: 11),
+          duration: const Duration(milliseconds: 220),
+          curve: Curves.easeOutCubic,
+          padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
             color: active ? Colors.white : Colors.transparent,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(18),
             boxShadow: active
                 ? [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.08),
-                      blurRadius: 10,
-                      offset: const Offset(0, 3),
+                      color: Colors.black.withValues(alpha: 0.10),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
+                    ),
+                    BoxShadow(
+                      color: Colors.white.withValues(alpha: 0.8),
+                      blurRadius: 4,
+                      offset: const Offset(0, -1),
                     ),
                   ]
                 : null,
@@ -280,7 +294,7 @@ class _AdminDashboardState extends State<AdminDashboard>
                 title,
                 style: TextStyle(
                   fontSize: 14,
-                  fontWeight: active ? FontWeight.w700 : FontWeight.w500,
+                  fontWeight: active ? FontWeight.w800 : FontWeight.w600,
                   color: active ? const Color(0xFF0F172A) : const Color(0xFF64748B),
                 ),
               ),
@@ -322,7 +336,7 @@ class _AdminDashboardState extends State<AdminDashboard>
               padding: EdgeInsets.all(40),
               child: Text(
                 "No orders in this category.",
-                style: TextStyle(color: Color(0xFF64748B), fontSize: 15),
+                style: TextStyle(color: Color(0xFF64748B), fontSize: 15, fontWeight: FontWeight.w600),
               ),
             ),
           )
@@ -342,17 +356,26 @@ class _AdminDashboardState extends State<AdminDashboard>
           duration: const Duration(milliseconds: 180),
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
           decoration: BoxDecoration(
-            color: active ? const Color(0xFF2563EB) : Colors.white.withValues(alpha: 0.7),
-            borderRadius: BorderRadius.circular(14),
+            color: active ? const Color(0xFF2563EB) : Colors.white.withValues(alpha: 0.75),
+            borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: active ? const Color(0xFF2563EB) : const Color(0xFFCBD5E1),
+              color: active ? const Color(0xFF2563EB) : Colors.white.withValues(alpha: 0.9),
             ),
+            boxShadow: active
+                ? [
+                    BoxShadow(
+                      color: const Color(0xFF2563EB).withValues(alpha: 0.35),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ]
+                : null,
           ),
           child: Text(
             label,
             style: TextStyle(
               fontSize: 13,
-              fontWeight: active ? FontWeight.w700 : FontWeight.w500,
+              fontWeight: active ? FontWeight.w800 : FontWeight.w600,
               color: active ? Colors.white : const Color(0xFF475569),
             ),
           ),
@@ -362,9 +385,9 @@ class _AdminDashboardState extends State<AdminDashboard>
   }
 
   Widget _buildAdminOrderCard(AdminOrder order) {
-    return IosGlassCard(
-      blur: 20,
-      borderRadius: 24,
+    return LiquidGlassCard(
+      blur: 24,
+      borderRadius: 28,
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(20),
       child: Column(
@@ -376,25 +399,25 @@ class _AdminDashboardState extends State<AdminDashboard>
               Row(
                 children: [
                   Container(
-                    width: 38,
-                    height: 38,
+                    width: 42,
+                    height: 42,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF2563EB).withValues(alpha: 0.1),
+                      color: const Color(0xFF2563EB).withValues(alpha: 0.12),
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(Icons.person_outline_rounded, color: Color(0xFF2563EB), size: 20),
+                    child: const Icon(Icons.person_rounded, color: Color(0xFF2563EB), size: 22),
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 12),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         order.customerName.isNotEmpty ? order.customerName : "Customer",
-                        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Color(0xFF0F172A)),
+                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Color(0xFF0F172A)),
                       ),
                       Text(
                         order.customerPhone,
-                        style: const TextStyle(fontSize: 12, color: Color(0xFF64748B)),
+                        style: const TextStyle(fontSize: 12, color: Color(0xFF64748B), fontWeight: FontWeight.w500),
                       ),
                     ],
                   ),
@@ -406,9 +429,9 @@ class _AdminDashboardState extends State<AdminDashboard>
           const SizedBox(height: 14),
           Text(
             order.items,
-            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Color(0xFF0F172A)),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Color(0xFF0F172A)),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -421,7 +444,7 @@ class _AdminDashboardState extends State<AdminDashboard>
               ),
               Text(
                 "LKR ${order.amount}",
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Color(0xFF2563EB)),
+                style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w900, color: Color(0xFF2563EB)),
               ),
             ],
           ),
@@ -431,7 +454,7 @@ class _AdminDashboardState extends State<AdminDashboard>
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: const Color(0xFFFEF2F2),
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: const Color(0xFFFECACA)),
               ),
               child: Row(
@@ -441,16 +464,16 @@ class _AdminDashboardState extends State<AdminDashboard>
                   const Expanded(
                     child: Text(
                       "Cancellation requested by customer",
-                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFFDC2626)),
+                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Color(0xFFDC2626)),
                     ),
                   ),
                   TextButton(
                     onPressed: () => _approveCancel(order),
-                    child: const Text("Approve", style: TextStyle(color: Color(0xFF16A34A), fontWeight: FontWeight.w700)),
+                    child: const Text("Approve", style: TextStyle(color: Color(0xFF16A34A), fontWeight: FontWeight.w800)),
                   ),
                   TextButton(
                     onPressed: () => _rejectCancel(order),
-                    child: const Text("Reject", style: TextStyle(color: Color(0xFFDC2626), fontWeight: FontWeight.w700)),
+                    child: const Text("Reject", style: TextStyle(color: Color(0xFFDC2626), fontWeight: FontWeight.w800)),
                   ),
                 ],
               ),
@@ -463,17 +486,24 @@ class _AdminDashboardState extends State<AdminDashboard>
 
   Widget _buildStatusDropdown(AdminOrder order) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.8),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFCBD5E1)),
+        color: Colors.white.withValues(alpha: 0.85),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.95)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
           value: _statuses.contains(order.status.toLowerCase()) ? order.status.toLowerCase() : 'pending',
           icon: const Icon(Icons.keyboard_arrow_down_rounded, size: 18, color: Color(0xFF64748B)),
-          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Color(0xFF0F172A)),
+          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: Color(0xFF0F172A)),
           items: _statuses.map((s) {
             return DropdownMenuItem<String>(
               value: s,
@@ -500,21 +530,21 @@ class _AdminDashboardState extends State<AdminDashboard>
       itemCount: _users.length,
       itemBuilder: (ctx, idx) {
         final user = _users[idx];
-        return IosGlassCard(
-          blur: 20,
-          borderRadius: 22,
+        return LiquidGlassCard(
+          blur: 24,
+          borderRadius: 24,
           margin: const EdgeInsets.only(bottom: 12),
           padding: const EdgeInsets.all(16),
           child: Row(
             children: [
               Container(
-                width: 44,
-                height: 44,
+                width: 46,
+                height: 46,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF2563EB).withValues(alpha: 0.1),
+                  color: const Color(0xFF2563EB).withValues(alpha: 0.12),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.person_rounded, color: Color(0xFF2563EB), size: 22),
+                child: const Icon(Icons.person_rounded, color: Color(0xFF2563EB), size: 24),
               ),
               const SizedBox(width: 14),
               Expanded(
@@ -523,12 +553,12 @@ class _AdminDashboardState extends State<AdminDashboard>
                   children: [
                     Text(
                       user.name,
-                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Color(0xFF0F172A)),
+                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: Color(0xFF0F172A)),
                     ),
                     const SizedBox(height: 2),
                     Text(
                       user.phone,
-                      style: const TextStyle(fontSize: 13, color: Color(0xFF64748B)),
+                      style: const TextStyle(fontSize: 13, color: Color(0xFF64748B), fontWeight: FontWeight.w500),
                     ),
                   ],
                 ),
@@ -536,9 +566,9 @@ class _AdminDashboardState extends State<AdminDashboard>
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.7),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: const Color(0xFFCBD5E1)),
+                  color: Colors.white.withValues(alpha: 0.8),
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(color: Colors.white.withValues(alpha: 0.9)),
                 ),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(
@@ -548,7 +578,7 @@ class _AdminDashboardState extends State<AdminDashboard>
                     items: ['customer', 'delivery', 'admin'].map((r) {
                       return DropdownMenuItem<String>(
                         value: r,
-                        child: Text(r.toUpperCase(), style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700)),
+                        child: Text(r.toUpperCase(), style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w800)),
                       );
                     }).toList(),
                     onChanged: (val) {

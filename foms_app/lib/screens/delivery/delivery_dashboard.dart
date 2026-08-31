@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../models/admin_order.dart';
 import '../../services/api_service.dart';
-import '../../widgets/ios_glass_card.dart';
+import '../../widgets/liquid_button.dart';
+import '../../widgets/liquid_glass_card.dart';
 import '../../widgets/logout_dialog.dart';
 import '../../widgets/premium_background.dart';
 
@@ -71,10 +72,9 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(msg),
-        backgroundColor:
-            isError ? const Color(0xFFEF4444) : const Color(0xFF2563EB),
+        backgroundColor: isError ? const Color(0xFFEF4444) : const Color(0xFF2563EB),
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         margin: const EdgeInsets.all(20),
       ),
     );
@@ -88,13 +88,13 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
         body: SafeArea(
           child: Column(
             children: [
-              // Header Card
+              // Rider Liquid Header
               _buildHeader(),
 
-              // Online / Status Switcher
+              // Online / Status Liquid Switcher
               _buildStatusPill(),
 
-              // Filter Tabs
+              // Sliding Liquid Filter Tabs
               _buildFilterTabs(),
 
               // Order List
@@ -116,25 +116,33 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
 
   Widget _buildHeader() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
-      child: IosGlassCard(
-        blur: 24,
-        borderRadius: 24,
+      padding: const EdgeInsets.fromLTRB(20, 14, 20, 8),
+      child: LiquidGlassCard(
+        blur: 32,
+        borderRadius: 28,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+        glowColor: const Color(0xFF10B981).withValues(alpha: 0.16),
         child: Row(
           children: [
             Container(
-              width: 44,
-              height: 44,
+              width: 48,
+              height: 48,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: const LinearGradient(
-                  colors: [Color(0xFF10B981), Color(0xFF059669)],
+                  colors: [Color(0xFF34D399), Color(0xFF059669)],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF10B981).withValues(alpha: 0.40),
+                    blurRadius: 16,
+                    offset: const Offset(0, 6),
+                  ),
+                ],
               ),
-              child: const Icon(Icons.delivery_dining_rounded, color: Colors.white, size: 24),
+              child: const Icon(Icons.two_wheeler_rounded, color: Colors.white, size: 26),
             ),
             const SizedBox(width: 14),
             Expanded(
@@ -144,25 +152,25 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                   Text(
                     _deliveryName,
                     style: const TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w800,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w900,
                       color: Color(0xFF0F172A),
-                      letterSpacing: -0.4,
+                      letterSpacing: -0.5,
                     ),
                   ),
                   const SizedBox(height: 2),
                   const Text(
                     "Delivery Dispatch Partner",
-                    style: TextStyle(fontSize: 13, color: Color(0xFF64748B)),
+                    style: TextStyle(fontSize: 13, color: Color(0xFF64748B), fontWeight: FontWeight.w500),
                   ),
                 ],
               ),
             ),
             IconButton(
               icon: Container(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(9),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFEF4444).withValues(alpha: 0.1),
+                  color: const Color(0xFFEF4444).withValues(alpha: 0.12),
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(Icons.logout_rounded, color: Color(0xFFEF4444), size: 18),
@@ -177,10 +185,10 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
 
   Widget _buildStatusPill() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-      child: IosGlassCard(
-        blur: 16,
-        borderRadius: 20,
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+      child: LiquidGlassCard(
+        blur: 24,
+        borderRadius: 22,
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -196,20 +204,20 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                     boxShadow: _isOnline
                         ? [
                             BoxShadow(
-                              color: const Color(0xFF10B981).withValues(alpha: 0.6),
-                              blurRadius: 8,
-                              spreadRadius: 2,
+                              color: const Color(0xFF10B981).withValues(alpha: 0.80),
+                              blurRadius: 10,
+                              spreadRadius: 3,
                             ),
                           ]
                         : null,
                   ),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: 12),
                 Text(
                   _isOnline ? "Active for Deliveries" : "Offline / On Break",
                   style: TextStyle(
                     fontSize: 14,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w800,
                     color: _isOnline ? const Color(0xFF0F172A) : const Color(0xFF64748B),
                   ),
                 ),
@@ -232,8 +240,9 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
       child: Container(
         padding: const EdgeInsets.all(4),
         decoration: BoxDecoration(
-          color: const Color(0xFFE2E8F0).withValues(alpha: 0.6),
-          borderRadius: BorderRadius.circular(18),
+          color: const Color(0xFFE2E8F0).withValues(alpha: 0.70),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.8)),
         ),
         child: Row(
           children: [
@@ -252,17 +261,23 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
       child: GestureDetector(
         onTap: () => setState(() => _filter = filterKey),
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 180),
-          padding: const EdgeInsets.symmetric(vertical: 9),
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOutCubic,
+          padding: const EdgeInsets.symmetric(vertical: 10),
           decoration: BoxDecoration(
             color: active ? Colors.white : Colors.transparent,
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(16),
             boxShadow: active
                 ? [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.08),
+                      color: Colors.black.withValues(alpha: 0.10),
                       blurRadius: 10,
                       offset: const Offset(0, 3),
+                    ),
+                    BoxShadow(
+                      color: Colors.white.withValues(alpha: 0.8),
+                      blurRadius: 4,
+                      offset: const Offset(0, -1),
                     ),
                   ]
                 : null,
@@ -272,7 +287,7 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
               label,
               style: TextStyle(
                 fontSize: 13,
-                fontWeight: active ? FontWeight.w700 : FontWeight.w500,
+                fontWeight: active ? FontWeight.w800 : FontWeight.w600,
                 color: active ? const Color(0xFF0F172A) : const Color(0xFF64748B),
               ),
             ),
@@ -303,7 +318,7 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
               SizedBox(height: 16),
               Text(
                 "No delivery orders here",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Color(0xFF0F172A)),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Color(0xFF0F172A)),
               ),
             ],
           ),
@@ -318,9 +333,9 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
         final order = filtered[idx];
         final s = order.status.toLowerCase();
 
-        return IosGlassCard(
-          blur: 20,
-          borderRadius: 24,
+        return LiquidGlassCard(
+          blur: 24,
+          borderRadius: 28,
           margin: const EdgeInsets.only(bottom: 16),
           padding: const EdgeInsets.all(20),
           child: Column(
@@ -331,7 +346,7 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                 children: [
                   Text(
                     order.customerName.isNotEmpty ? order.customerName : "Customer",
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(0xFF0F172A)),
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Color(0xFF0F172A)),
                   ),
                   _buildStatusBadge(order.status),
                 ],
@@ -339,7 +354,7 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
               const SizedBox(height: 10),
               Text(
                 order.items,
-                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Color(0xFF334155)),
+                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Color(0xFF334155)),
               ),
               const SizedBox(height: 8),
               Row(
@@ -354,42 +369,34 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                   ),
                   Text(
                     "LKR ${order.amount}",
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Color(0xFF2563EB)),
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Color(0xFF2563EB)),
                   ),
                 ],
               ),
               const SizedBox(height: 14),
               const Divider(color: Color(0xFFE2E8F0)),
-              const SizedBox(height: 8),
+              const SizedBox(height: 10),
 
               // Action Buttons
               if (s == 'preparing' || s == 'pending')
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton.icon(
-                    onPressed: () => _updateStatus(order, 'out_for_delivery'),
-                    icon: const Icon(Icons.delivery_dining_rounded, size: 18, color: Colors.white),
-                    label: const Text("Start Delivery", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700)),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF2563EB),
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                    ),
-                  ),
+                LiquidButton(
+                  text: "Start Delivery",
+                  icon: Icons.two_wheeler_rounded,
+                  height: 48,
+                  borderRadius: 16,
+                  gradientColors: const [Color(0xFF2563EB), Color(0xFF1D4ED8)],
+                  glowColor: const Color(0xFF2563EB).withValues(alpha: 0.5),
+                  onPressed: () => _updateStatus(order, 'out_for_delivery'),
                 )
               else if (s == 'out_for_delivery')
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton.icon(
-                    onPressed: () => _updateStatus(order, 'delivered'),
-                    icon: const Icon(Icons.check_circle_rounded, size: 18, color: Colors.white),
-                    label: const Text("Mark as Delivered", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700)),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF10B981),
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                    ),
-                  ),
+                LiquidButton(
+                  text: "Mark as Delivered",
+                  icon: Icons.check_circle_rounded,
+                  height: 48,
+                  borderRadius: 16,
+                  gradientColors: const [Color(0xFF10B981), Color(0xFF059669)],
+                  glowColor: const Color(0xFF10B981).withValues(alpha: 0.5),
+                  onPressed: () => _updateStatus(order, 'delivered'),
                 ),
             ],
           ),
@@ -419,9 +426,13 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(10)),
-      child: Text(label, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: fg)),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: fg.withValues(alpha: 0.3)),
+      ),
+      child: Text(label, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: fg)),
     );
   }
 }
